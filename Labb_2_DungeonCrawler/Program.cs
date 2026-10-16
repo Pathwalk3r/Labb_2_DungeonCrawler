@@ -15,8 +15,8 @@ internal class Program
 
             Player? player = (Player?)myLevel.Entity.Find(player => player is Player);
 
-            int x = player.X;
-            int y = player.Y;
+            int x = player.XCord;
+            int y = player.YCord;
 
             bool gameover = false;
 
@@ -32,7 +32,7 @@ internal class Program
                     foreach (var element in myLevel.Entity.ToList())
                     {
                         
-                        element.WithinVisionRange(player.X, player.Y);
+                        element.WithinVisionRange(player.XCord, player.YCord);
                         if (element is Wall wall)
                         {
                             wall.HasBeenDiscovered();
@@ -43,8 +43,12 @@ internal class Program
                             if (!enemy.IsAlive)
                             {
                                 myLevel.RemoveDeadEntities(enemy);
+
                             }
-                            enemy.Update(myLevel.Entity);
+                            else
+                            {
+                                enemy.Update(myLevel.Entity);
+                            }
                         }
                     }
                 turnCount++;
@@ -58,7 +62,7 @@ internal class Program
                     Console.WriteLine("You have died!".PadRight(120));
                     gameover = true;
                 }
-                
+             Console.SetCursorPosition(0, 24); 
             }
 
         }
