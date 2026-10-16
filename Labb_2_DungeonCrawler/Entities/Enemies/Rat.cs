@@ -25,7 +25,7 @@ namespace Labb_2_DungeonCrawler.Entities.Enemies
         {
             LevelObject = _sprite;
             Color = _color;
-            X = x; Y = y;
+            XCord = x; YCord = y;
 
             this.AttackDice = _attackDice;
             this.DefenseDice = _defenseDice;
@@ -39,18 +39,18 @@ namespace Labb_2_DungeonCrawler.Entities.Enemies
         {
             Direction direction = (Direction)_rand.Next(0, 4);
 
-            MovingDirection(direction, this.X, this.Y, out int newX, out int newY);
+            MovingDirection(direction, this.XCord, this.YCord, out int newX, out int newY);
 
             if (!ValidMove(entities, newX, newY))
             {
-                var target = entities.FirstOrDefault(p => p.X == newX && p.Y == newY);
+                var target = entities.FirstOrDefault(p => p.XCord == newX && p.YCord == newY);
                 if (target is Player player)
                 {
-                    int yPos = 1;
+                    int yPos = 2;
                     EnemyAttack(player, yPos);
                     if (player.HitPoints > 0)
                     {
-                        yPos = 2;
+                        yPos = 3;
                         player.PlayerAttack(this, yPos);
                     }
                     
@@ -67,8 +67,8 @@ namespace Labb_2_DungeonCrawler.Entities.Enemies
             {
                 if (entity is Player p)
                 {
-                    playerPosX = p.X;
-                    playerPosY = p.Y;
+                    playerPosX = p.XCord;
+                    playerPosY = p.YCord;
                 }
             }
             WithinVisionRange(playerPosX, playerPosY);
