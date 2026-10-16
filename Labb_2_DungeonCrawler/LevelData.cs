@@ -8,7 +8,7 @@ namespace Labb_2_DungeonCrawler
 {
     class LevelData
     {
-        private List<LevelEntity> _entity;
+        private List<LevelEntity> _entity = new List<LevelEntity>();
 
         public List<LevelEntity> Entity 
         { 
@@ -20,9 +20,8 @@ namespace Labb_2_DungeonCrawler
             StreamReader sr = new StreamReader(filename);
             
             string line = sr.ReadLine();
-            List<LevelEntity> myLevel = new List<LevelEntity>(); 
 
-            int y = 0;
+            int y = 5;
 
             while (line != null)
             {
@@ -32,16 +31,16 @@ namespace Labb_2_DungeonCrawler
                     switch (line[x])
                     {
                         case '#':
-                            myLevel.Add(new Wall(x, y));
+                            _entity.Add(new Wall(x, y));
                             continue;
                         case 'r':
-                            myLevel.Add(new Rat(x, y));
+                            _entity.Add(new Rat(x, y));
                             continue;
                         case 's':
-                            myLevel.Add(new Snake(x, y));
+                            _entity.Add(new Snake(x, y));
                             continue;
                         case '@':
-                            myLevel.Add(new Player(x, y));
+                            _entity.Add(new Player(x, y));
                             continue;
                     }
                 }
@@ -50,14 +49,27 @@ namespace Labb_2_DungeonCrawler
             }
             sr.Close();
 
-            foreach (var entity in myLevel)
+            Player? player = (Player?)_entity.Find(x => x is Player);
+
+            //Console.WriteLine("Enter your name:");
+            //player?.Name = Console.ReadLine();
+            //Console.Clear();
+
+            //Console.Write($"{player.Name} HP [{player?.HitPoints}/{player?._maxHp}]".PadRight(30));
+            //Console.Write($"Turn: 0");
+
+            int playerPosX = player.X;
+            int playerPosY = player.X;
+
+            foreach (var entity in _entity)
             {
+                entity.WithinVisionRange(playerPosX, playerPosY);
                 entity.Draw();
             }
-            
-            
-                
-            
+        }
+        public void RemoveDeadEntities(Enemy enemy)
+        {
+            _entity.Remove(enemy);
         }
     }
 }
