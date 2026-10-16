@@ -17,7 +17,7 @@ namespace Labb_2_DungeonCrawler.Entities
         {
             LevelObject = _sprite;
             Color = _color;
-            X = x; Y = y;
+            XCord = x; YCord = y;
         }
 
         public void HasBeenDiscovered()
