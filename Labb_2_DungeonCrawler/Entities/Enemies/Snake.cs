@@ -19,11 +19,11 @@ namespace Labb_2_DungeonCrawler.Entities.Enemies
 
         public Dice _defenseDice = new Dice(1, 8, 5);
 
-        public Snake(int x, int y) : base(x, y)
+        public Snake(int xCord, int yCord) : base(xCord, yCord)
         {
             LevelObject = _sprite;
             Color = _color;
-            X = x; Y = y;
+            XCord = xCord; YCord = yCord;
 
             this.AttackDice = _attackDice;
             this.DefenseDice = _defenseDice;
@@ -33,7 +33,7 @@ namespace Labb_2_DungeonCrawler.Entities.Enemies
         }
         public override void Update(List<LevelEntity> entities)
         {
-            Console.SetCursorPosition(this.X, this.Y);
+            Console.SetCursorPosition(this.XCord, this.YCord);
             Console.ForegroundColor = this.Color;
 
             Direction? direction = null;
@@ -45,49 +45,49 @@ namespace Labb_2_DungeonCrawler.Entities.Enemies
             {
                 if (entity is Player p)
                 {
-                    playerPosX = p.X;
-                    playerPosY = p.Y;
+                    playerPosX = p.XCord;
+                    playerPosY = p.YCord;
 
                 }
             }
 
-            if (DistanceToPlayer(this.X, this.Y, playerPosX, playerPosY) < 3)
+            if (DistanceToPlayer(this.XCord, this.YCord, playerPosX, playerPosY) < 3)
             {
-                if (playerPosX < this.X)
-                {
-                    direction = Direction.South;
-                }
-                if (playerPosX > this.X)
-                {
-                    direction = Direction.North;
-                }
-                if (playerPosY < this.Y)
+                if (playerPosX < this.XCord)
                 {
                     direction = Direction.East;
                 }
-                if (playerPosY >  this.Y)
+                if (playerPosX > this.XCord)
                 {
                     direction = Direction.West;
+                }
+                if (playerPosY < this.YCord)
+                {
+                    direction = Direction.South;
+                }
+                if (playerPosY >  this.YCord)
+                {
+                    direction = Direction.North;
                 }
             }
 
             WithinVisionRange(playerPosX, playerPosY);
 
-            int newX = this.X;
-            int newY = this.Y;
+            int newXCord = this.XCord;
+            int newYCord = this.YCord;
 
             if (direction.HasValue)
             {
-                MovingDirection(direction.Value, this.X, this.Y, out newX, out newY);
+                MovingDirection(direction.Value, this.XCord, this.YCord, out newXCord, out newYCord);
             }
 
 
-            if (!ValidMove(entities, newX, newY))
+            if (!ValidMove(entities, newXCord, newYCord))
             {
                 return;
             }
             
-            DrawMovement(_sprite, newX, newY);
+            DrawMovement(_sprite, newXCord, newYCord);
         } 
     }
 }
