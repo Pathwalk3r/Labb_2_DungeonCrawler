@@ -28,24 +28,24 @@ namespace Labb_2_DungeonCrawler.Entities.Enemies
 
         public abstract void Update(List<LevelEntity>entities);
 
-        protected static void MovingDirection(Direction direction, int x, int y, out int newX, out int newY)
+        protected static void MovingDirection(Direction direction, int XCord, int yCord, out int newXCord, out int newYCord)
         {
-            newX = x;
-            newY = y;
+            newXCord = XCord;
+            newYCord = yCord;
 
             switch (direction)
             {
-                case Direction.North:
-                    newX--;
-                    break;
-                case Direction.South:
-                    newX++;
-                    break;
                 case Direction.West:
-                    newY--;
+                    newXCord--;
                     break;
                 case Direction.East:
-                    newY++;
+                    newXCord++;
+                    break;
+                case Direction.North:
+                    newYCord--;
+                    break;
+                case Direction.South:
+                    newYCord++;
                     break;
             }
         }
@@ -55,8 +55,10 @@ namespace Labb_2_DungeonCrawler.Entities.Enemies
             int enemyAttack = this.AttackDice.Throw();
             int playerDefence = player.DefenseDice.Throw();
 
-            Console.SetCursorPosition(0, yPos);
-            Console.WriteLine($"{this.Name} attacked with {AttackDice.ToString()} and deal {enemyAttack} damage.".PadRight(80));
+            string summery = String.Empty;
+
+            
+            summery += $"{this.Name} attacked with {AttackDice.ToString()} and deal {enemyAttack} damage. ";
             
 
             int damage = enemyAttack - playerDefence;
@@ -64,18 +66,29 @@ namespace Labb_2_DungeonCrawler.Entities.Enemies
             if (damage > 0)
             {
                 player.HitPoints -= damage;
-                Console.WriteLine($"{player.Name} takes {damage} damage and has {player.HitPoints} HP remaining".PadRight(80));
+                summery += $"{player.Name} takes {damage} damage and has {player.HitPoints} HP remaining.";
+
+                if (this.HitPoints <= 0)
+                {
+                    this.EnemyKilled(this);
+                    summery += $"{this.Name} has died!";
+                }
             }
             else
             {
-                Console.WriteLine("You have blocked the damage".PadRight(80));
+                summery += "You have blocked the damage";
             }
-            
+            WriteAtLine(yPos, summery);
         }
 
         public void EnemyKilled(Enemy enemy)
         {
             enemy.IsAlive = false;
+            enemy.LevelObject = ' ';
+            Console.SetCursorPosition(enemy.XCord, enemy.YCord);
+            Console.ForegroundColor = enemy.Color;
+            Console.Write(enemy.LevelObject);
+            Console.ResetColor();
         }
     }
 }
