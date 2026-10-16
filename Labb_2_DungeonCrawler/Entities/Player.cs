@@ -36,7 +36,7 @@ namespace Labb_2_DungeonCrawler.Entities
 
         public Dice DefenseDice { get; set; }
 
-        public Player(int x,  int y) : base(x, y)
+        public Player(int xCord,  int yCord) : base(xCord, yCord)
         {
             LevelObject = _sprite;
             Color = _color;
@@ -51,45 +51,50 @@ namespace Labb_2_DungeonCrawler.Entities
         {
             bool gameover = false;
 
-            int newX = this.X;
-            int newY = this.Y;
+            int newXCord = this.XCord;
+            int newYCord = this.YCord;
 
             switch (input)
             {
                 case ConsoleKey.LeftArrow:
-                    newX--;
+                    newXCord--;
                     break;
                 case ConsoleKey.RightArrow:
-                    newX++;
+                    newXCord++;
                     break;
                 case ConsoleKey.UpArrow:
-                    newY--;
+                    newYCord--;
                     break;
                 case ConsoleKey.DownArrow:
-                    newY++;
+                    newYCord++;
                     break;
                 case ConsoleKey.Escape:
                     gameover = true;
                     break;
             }
 
-            if (!ValidMove(entities, newX, newY))
+            if (!ValidMove(entities, newXCord, newYCord))
             {
-                var target = entities.FirstOrDefault(e => e.X ==  newX && e.Y == newY);
+                var target = entities.FirstOrDefault(e => e.XCord ==  newXCord && e.YCord == newYCord);
                 if (target is Enemy enemy)
                 {
-                    int yPos = 1;
+                    int yPos = 2;
                     PlayerAttack(enemy, yPos);
                     if (enemy.IsAlive)
                     {
-                        yPos = 2;
+                        yPos = 3;
                         enemy.EnemyAttack(this, yPos);
+                    }
+                    else
+                    {
+                        yPos = 3;
+                        Console.WriteLine(new string(' ', Console.WindowWidth));
                     }
                 }
                 return false;
             }
 
-            DrawMovement(_sprite, newX, newY);
+            DrawMovement(_sprite, newXCord, newYCord);
             return gameover;
         }
 
@@ -98,29 +103,30 @@ namespace Labb_2_DungeonCrawler.Entities
             int playerAttack = this.AttackDice.Throw();
             int enemyDefense = enemy.DefenseDice.Throw();
 
-            
+            string summery = String.Empty;
 
             int damage = playerAttack - enemyDefense;
 
-            Console.SetCursorPosition(0, yPos);
-            Console.WriteLine($"{this.Name} attacked with {AttackDice.ToString()} and deal {playerAttack} damage.".PadRight(80));
+            summery += $"{this.Name} attacked with {AttackDice.ToString()} and deal {playerAttack} damage. ";
+            
 
             if (damage > 0)
             {
                 enemy.HitPoints -= damage;
-                Console.WriteLine($"{enemy.Name} takes {damage} damage and has {enemy.HitPoints} HP remaining".PadRight(80));
+                summery += $"{enemy.Name} takes {damage} damage and has {enemy.HitPoints} HP remaining. ";
 
                 if (enemy.HitPoints <= 0)
                 {
-                    Console.Write($"{enemy.Name} has been killed!".PadRight(80));
                     enemy.EnemyKilled(enemy);
+                    summery += $"{enemy.Name} has been killed!";
                 }
             }
             else
             {
-                Console.WriteLine($"The {enemy.Name} has blocked the damage!".PadRight(80));
+                summery += $"The {enemy.Name} has blocked the damage!";
             }
-            
+            WriteAtLine(yPos, summery);
+            Thread.Sleep(200);
         }
 
     }
