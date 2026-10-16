@@ -7,14 +7,14 @@ namespace Labb_2_DungeonCrawler
 {
     public abstract class LevelEntity
     {
-        public LevelEntity(int x, int y)
+        public LevelEntity(int xCord, int yCord)
         {
-            X = x;
-            Y = y;
+            XCord = xCord;
+            YCord = yCord;
         }
 
-        public int X { get; set; }
-        public int Y { get; set; }
+        public int XCord { get; set; }
+        public int YCord { get; set; }
 
         public char LevelObject { get; set; }
 
@@ -26,18 +26,18 @@ namespace Labb_2_DungeonCrawler
 
         public void Draw()
         {
-            Console.SetCursorPosition(this.X, this.Y);
+            Console.SetCursorPosition(this.XCord, this.YCord);
             Console.ForegroundColor = Color;
             Console.Write(IsVisible ? LevelObject: ' ');
             Console.ResetColor();
         }
 
-        public bool ValidMove(List<LevelEntity>myEntities, int x, int y)
+        public bool ValidMove(List<LevelEntity>myEntities, int xCord, int yCord)
         {
             foreach (var entity in myEntities)
             {
                 if (ReferenceEquals(entity, this)) continue;
-                if (entity.X == x && entity.Y == y && !entity.IsPassable)
+                if (entity.XCord == xCord && entity.YCord == yCord && !entity.IsPassable)
                 {
                     return false;
                 }
@@ -45,15 +45,15 @@ namespace Labb_2_DungeonCrawler
             return true;
         }
 
-        public void DrawMovement(char sprite, int x, int y)
+        public void DrawMovement(char sprite, int xCord, int yCord)
         {
-            Console.SetCursorPosition(this.X, this.Y);
+            Console.SetCursorPosition(this.XCord, this.YCord);
             Console.ForegroundColor = this.Color;
 
             Console.Write(" ");
 
-            this.X = x;
-            this.Y = y;
+            this.XCord = xCord;
+            this.YCord = yCord;
 
             Draw();
 
@@ -68,7 +68,13 @@ namespace Labb_2_DungeonCrawler
         }
         public void WithinVisionRange(int playerPosX, int PlayerPosY, int range = 5)
         {
-            IsVisible = DistanceToPlayer(this.X, this.Y, playerPosX, PlayerPosY) <= range;
+            IsVisible = DistanceToPlayer(this.XCord, this.YCord, playerPosX, PlayerPosY) <= range;
+        }
+
+        public static void WriteAtLine (int row, string text)
+        {
+            Console.SetCursorPosition(0, row);
+            Console.Write(text.PadRight(Console.WindowWidth));
         }
     }
 }
