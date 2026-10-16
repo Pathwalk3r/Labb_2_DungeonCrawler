@@ -50,7 +50,7 @@ namespace Labb_2_DungeonCrawler.Entities.Enemies
             }
         }
 
-        public void EnemyAttack(Player player, int yPos)
+        public void EnemyAttack(Player player, int yPosForWriting)
         {
             int enemyAttack = this.AttackDice.Throw();
             int playerDefence = player.DefenseDice.Throw();
@@ -78,7 +78,7 @@ namespace Labb_2_DungeonCrawler.Entities.Enemies
             {
                 summery += "You have blocked the damage";
             }
-            WriteAtLine(yPos, summery);
+            WriteAtLine(yPosForWriting, summery);
         }
 
         public void EnemyKilled(Enemy enemy)

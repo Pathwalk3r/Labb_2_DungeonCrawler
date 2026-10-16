@@ -39,19 +39,19 @@ namespace Labb_2_DungeonCrawler.Entities.Enemies
         {
             Direction direction = (Direction)_rand.Next(0, 4);
 
-            MovingDirection(direction, this.XCord, this.YCord, out int newX, out int newY);
+            MovingDirection(direction, this.XCord, this.YCord, out int newXCord, out int newYCord);
 
-            if (!ValidMove(entities, newX, newY))
+            if (!ValidMove(entities, newXCord, newYCord))
             {
-                var target = entities.FirstOrDefault(p => p.XCord == newX && p.YCord == newY);
+                var target = entities.FirstOrDefault(p => p.XCord == newXCord && p.YCord == newYCord);
                 if (target is Player player)
                 {
-                    int yPos = 2;
-                    EnemyAttack(player, yPos);
+                    int yPosForWriting = 2;
+                    EnemyAttack(player, yPosForWriting);
                     if (player.HitPoints > 0)
                     {
-                        yPos = 3;
-                        player.PlayerAttack(this, yPos);
+                        yPosForWriting = 3;
+                        player.PlayerAttack(this, yPosForWriting);
                     }
                     
                 }
@@ -72,7 +72,7 @@ namespace Labb_2_DungeonCrawler.Entities.Enemies
                 }
             }
             WithinVisionRange(playerPosX, playerPosY);
-            DrawMovement(_sprite, newX, newY);
+            DrawMovement(_sprite, newXCord, newYCord);
         }
     }
 }

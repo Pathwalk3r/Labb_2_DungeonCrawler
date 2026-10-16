@@ -13,11 +13,11 @@ namespace Labb_2_DungeonCrawler.Entities
 
         public override bool IsVisible {  get; set; }
 
-        internal Wall(int x, int y) : base(x, y)
+        internal Wall(int xCord, int yCord) : base(xCord, yCord)
         {
             LevelObject = _sprite;
             Color = _color;
-            XCord = x; YCord = y;
+            XCord = xCord; YCord = yCord;
         }
 
         public void HasBeenDiscovered()

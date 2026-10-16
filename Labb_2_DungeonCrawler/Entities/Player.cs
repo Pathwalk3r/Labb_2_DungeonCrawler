@@ -78,16 +78,16 @@ namespace Labb_2_DungeonCrawler.Entities
                 var target = entities.FirstOrDefault(e => e.XCord ==  newXCord && e.YCord == newYCord);
                 if (target is Enemy enemy)
                 {
-                    int yPos = 2;
-                    PlayerAttack(enemy, yPos);
+                    int yPosForWriting = 2;
+                    PlayerAttack(enemy, yPosForWriting);
                     if (enemy.IsAlive)
                     {
-                        yPos = 3;
-                        enemy.EnemyAttack(this, yPos);
+                        yPosForWriting = 3;
+                        enemy.EnemyAttack(this, yPosForWriting);
                     }
                     else
                     {
-                        yPos = 3;
+                        yPosForWriting = 3;
                         Console.WriteLine(new string(' ', Console.WindowWidth));
                     }
                 }
@@ -98,7 +98,7 @@ namespace Labb_2_DungeonCrawler.Entities
             return gameover;
         }
 
-        public void PlayerAttack(Enemy enemy, int yPos)
+        public void PlayerAttack(Enemy enemy, int yPosForWriting)
         {
             int playerAttack = this.AttackDice.Throw();
             int enemyDefense = enemy.DefenseDice.Throw();
@@ -125,7 +125,7 @@ namespace Labb_2_DungeonCrawler.Entities
             {
                 summery += $"The {enemy.Name} has blocked the damage!";
             }
-            WriteAtLine(yPos, summery);
+            WriteAtLine(yPosForWriting, summery);
             Thread.Sleep(200);
         }
 
