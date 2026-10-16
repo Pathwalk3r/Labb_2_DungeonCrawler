@@ -21,35 +21,35 @@ namespace Labb_2_DungeonCrawler
             
             string line = sr.ReadLine();
 
-            int y = 5;
+            int yCord = 5;
 
             while (line != null)
             {
 
-                for (int x = 0; x < line.Length; x++)
+                for (int xCord = 0; xCord < line.Length; xCord++)
                 {
-                    switch (line[x])
+                    switch (line[xCord])
                     {
                         case '#':
-                            _entity.Add(new Wall(x, y));
+                            _entity.Add(new Wall(xCord, yCord));
                             continue;
                         case 'r':
-                            _entity.Add(new Rat(x, y));
+                            _entity.Add(new Rat(xCord, yCord));
                             continue;
                         case 's':
-                            _entity.Add(new Snake(x, y));
+                            _entity.Add(new Snake(xCord, yCord));
                             continue;
                         case '@':
-                            _entity.Add(new Player(x, y));
+                            _entity.Add(new Player(xCord, yCord));
                             continue;
                     }
                 }
-                y++;
+                yCord++;
                 line = sr.ReadLine();
             }
             sr.Close();
 
-            Player? player = (Player?)_entity.Find(x => x is Player);
+            Player? player = (Player?)_entity.Find(entity => entity is Player);
 
             //Console.WriteLine("Enter your name:");
             //player?.Name = Console.ReadLine();
@@ -58,8 +58,8 @@ namespace Labb_2_DungeonCrawler
             //Console.Write($"{player.Name} HP [{player?.HitPoints}/{player?._maxHp}]".PadRight(30));
             //Console.Write($"Turn: 0");
 
-            int playerPosX = player.X;
-            int playerPosY = player.X;
+            int playerPosX = player.XCord;
+            int playerPosY = player.YCord;
 
             foreach (var entity in _entity)
             {
