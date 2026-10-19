@@ -17,15 +17,15 @@ namespace Labb_2_DungeonCrawler.Entities.Enemies
 
         private ConsoleColor _color = ConsoleColor.Red;
 
-        private Dice _attackDice = new Dice(1, 6, 3);
+        private Dice _attackDice = new Dice(numberOfDice:1, sidesPerDice:6, modifier:3);
 
-        private Dice _defenseDice = new Dice(1, 6, 1);
+        private Dice _defenseDice = new Dice(numberOfDice:1, sidesPerDice:6, modifier:1);
 
-        public Rat(int x, int y) : base(x, y)
+        public Rat(int xCord, int yCord) : base(xCord, yCord)
         {
             LevelObject = _sprite;
             Color = _color;
-            XCord = x; YCord = y;
+            XCord = xCord; YCord = yCord;
 
             this.AttackDice = _attackDice;
             this.DefenseDice = _defenseDice;
@@ -37,6 +37,13 @@ namespace Labb_2_DungeonCrawler.Entities.Enemies
         
         public override void Update(List<LevelEntity> entities)
         {
+            Player? player = null;
+
+            foreach (LevelEntity entity in entities.OfType<Player>())
+            {
+                player = entity as Player;
+            }
+
             Direction direction = (Direction)_rand.Next(0, 4);
 
             MovingDirection(direction, this.XCord, this.YCord, out int newXCord, out int newYCord);
@@ -44,7 +51,7 @@ namespace Labb_2_DungeonCrawler.Entities.Enemies
             if (!ValidMove(entities, newXCord, newYCord))
             {
                 var target = entities.FirstOrDefault(p => p.XCord == newXCord && p.YCord == newYCord);
-                if (target is Player player)
+                if (target == player)
                 {
                     int yPosForWriting = 2;
                     EnemyAttack(player, yPosForWriting);
@@ -57,21 +64,9 @@ namespace Labb_2_DungeonCrawler.Entities.Enemies
                 }
                 return;
             }
-                
-                
-
-            int playerPosX = 0;
-            int playerPosY = 0;
-
-            foreach (LevelEntity entity in entities)
-            {
-                if (entity is Player p)
-                {
-                    playerPosX = p.XCord;
-                    playerPosY = p.YCord;
-                }
-            }
-            WithinVisionRange(playerPosX, playerPosY);
+           
+            
+            WithinVisionRange(player);
             DrawMovement(_sprite, newXCord, newYCord);
         }
     }
