@@ -15,9 +15,9 @@ namespace Labb_2_DungeonCrawler.Entities.Enemies
 
         private ConsoleColor _color = ConsoleColor.Green;
 
-        public Dice _attackDice = new Dice(3, 4, 2);
+        public Dice _attackDice = new Dice(numberOfDice:3, sidesPerDice:4, modifier:2);
 
-        public Dice _defenseDice = new Dice(1, 8, 5);
+        public Dice _defenseDice = new Dice(numberOfDice:1, sidesPerDice:8, modifier:5);
 
         public Snake(int xCord, int yCord) : base(xCord, yCord)
         {
@@ -38,40 +38,34 @@ namespace Labb_2_DungeonCrawler.Entities.Enemies
 
             Direction? direction = null;
 
-            int playerPosX = 0;
-            int playerPosY = 0;
+            Player? player = null;
 
-            foreach (LevelEntity entity in entities)
+            foreach (LevelEntity entity in entities.OfType<Player>())
             {
-                if (entity is Player p)
-                {
-                    playerPosX = p.XCord;
-                    playerPosY = p.YCord;
-
-                }
+                player = entity as Player;
             }
 
-            if (DistanceToPlayer(this.XCord, this.YCord, playerPosX, playerPosY) < 3)
+            if (DistanceToPlayer(player) < 3)
             {
-                if (playerPosX < this.XCord)
+                if (player.XCord < this.XCord)
                 {
                     direction = Direction.East;
                 }
-                if (playerPosX > this.XCord)
+                if (player.XCord > this.XCord)
                 {
                     direction = Direction.West;
                 }
-                if (playerPosY < this.YCord)
+                if (player.YCord < this.YCord)
                 {
                     direction = Direction.South;
                 }
-                if (playerPosY >  this.YCord)
+                if (player.YCord >  this.YCord)
                 {
                     direction = Direction.North;
                 }
             }
 
-            WithinVisionRange(playerPosX, playerPosY);
+            WithinVisionRange(player);
 
             int newXCord = this.XCord;
             int newYCord = this.YCord;
