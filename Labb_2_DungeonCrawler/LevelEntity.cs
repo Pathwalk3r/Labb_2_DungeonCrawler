@@ -58,17 +58,17 @@ namespace Labb_2_DungeonCrawler
             Draw();
 
         }
-        public int DistanceToPlayer(int entityPosX, int entityPosY, int playerPosX, int PlayerPosY)
+        public int DistanceToPlayer(Player player)
         {
             double distance = 0;
             
-            distance = Math.Sqrt(Math.Pow(Convert.ToDouble(entityPosX) - Convert.ToDouble(playerPosX), 2) + Math.Pow(Convert.ToDouble(entityPosY) - Convert.ToDouble(PlayerPosY), 2));
+            distance = Math.Sqrt(Math.Pow(Convert.ToDouble(XCord) - Convert.ToDouble(player.XCord), 2) + Math.Pow(Convert.ToDouble(YCord) - Convert.ToDouble(player.YCord), 2));
             
             return (int)distance;
         }
-        public void WithinVisionRange(int playerPosX, int PlayerPosY, int range = 5)
+        public void WithinVisionRange(Player player, int range = 5)
         {
-            IsVisible = DistanceToPlayer(this.XCord, this.YCord, playerPosX, PlayerPosY) <= range;
+            IsVisible = DistanceToPlayer(player) <= range;
         }
 
         public static void WriteAtLine (int row, string text)
