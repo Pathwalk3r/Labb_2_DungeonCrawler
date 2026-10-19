@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Labb_2_DungeonCrawler
 {
-    internal class Dice
+    public class Dice
     {
         private int _numbersOfDice;
 
