@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Labb_2_DungeonCrawler.Entities
 {
-    internal class Player : LevelEntity
+    public class Player : LevelEntity
     {
         private char _sprite = '@';
 
@@ -28,11 +28,11 @@ namespace Labb_2_DungeonCrawler.Entities
 
         public int HitPoints { get => _hp; set => _hp = value; }
 
-        private Dice _attackDice = new Dice(2, 6, 2);
+        private Dice _attackDice = new Dice(numberOfDice:2, sidesPerDice:6, modifier:2);
 
-        private Dice _defenseDice = new Dice(2, 6, 0);
+        private Dice _defenseDice = new Dice(numberOfDice:2, sidesPerDice:6, modifier:0);
 
-        public Dice AttackDice { get; set;  }
+        public Dice AttackDice { get; set; }
 
         public Dice DefenseDice { get; set; }
 
