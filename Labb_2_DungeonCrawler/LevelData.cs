@@ -51,19 +51,9 @@ namespace Labb_2_DungeonCrawler
 
             Player? player = (Player?)_entity.Find(entity => entity is Player);
 
-            //Console.WriteLine("Enter your name:");
-            //player?.Name = Console.ReadLine();
-            //Console.Clear();
-
-            //Console.Write($"{player.Name} HP [{player?.HitPoints}/{player?._maxHp}]".PadRight(30));
-            //Console.Write($"Turn: 0");
-
-            int playerPosX = player.XCord;
-            int playerPosY = player.YCord;
-
             foreach (var entity in _entity)
             {
-                entity.WithinVisionRange(playerPosX, playerPosY);
+                entity.WithinVisionRange(player);
                 entity.Draw();
             }
         }
